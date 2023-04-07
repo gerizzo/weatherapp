@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Form from './Form';
-
+import Card from './Card';
 
 const WeatherPanel = () => {
     const APIkey = '1806a53293661e823fc357c9423269a2';
@@ -19,6 +19,7 @@ const WeatherPanel = () => {
         setShowInfo] = useState(false);
     const [location,
         setLocation] = useState("");
+
     const getLocation = async(loc) => {
         setLoading(true);
         setLocation(loc);
@@ -57,6 +58,13 @@ const WeatherPanel = () => {
     return (
         <div>
             <Form newLocation={getLocation}/>
+            <Card
+                showData={showInfo}
+                loadingData={loading}
+                weatherData={weather}
+                forecastData={forecast}
+                cityName={location}
+                />
         </div>
     )
 }

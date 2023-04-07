@@ -24,7 +24,6 @@ const Form = ({newLocation}) => {
                         onChange={(e) => setCity(e.target.value.toLocaleUpperCase())}/>
                     <button className='btn btn-primary input-group-text' type='submit'>Buscar</button>
                 </div>
-
             </form>
         </div>
     )
