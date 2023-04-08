@@ -1,45 +1,53 @@
-import React, {useState, useEffect} from 'react'
-import Spinner from './Spinner'
+import React, { useState, useEffect } from 'react';
+import Spinner from './Spinner';
+import lookup from 'country-code-lookup';
 
-
-const Card = ({showData, loadingData, weatherData, forecastData, cityName}) => {
-  // IMPLEMENTACIÓN DE QUE SE BUSQUE UNA IMAGEN DE LA CIUDAD BUSCADA EN LA API DE UNSPLASH
+const Card = ({ showData, loadingData, weatherData, forecastData, cityName }) => {
+  const countryCode = weatherData.sys && weatherData.sys.country;
+  const countryName = countryCode && lookup.byIso(countryCode).country;
   const [cityImage, setCityImage] = useState('');
-  const getCityImage = async (cityName) => {
+  const getCityImage = async (countryName) => {
     const response = await fetch(
-      `https://api.unsplash.com/search/photos?query=${cityName}&client_id=eun4874AzxcpbQxHNQlrMxPWvriGs1VZVH_XcD4a3zc`
+      `https://api.unsplash.com/search/photos?query=${countryName} flag&client_id=eun4874AzxcpbQxHNQlrMxPWvriGs1VZVH_XcD4a3zc`
     );
     const data = await response.json();
     return data.results[0].urls.regular;
   };
+
   useEffect(() => {
     const fetchCityImage = async () => {
-      const image = await getCityImage(cityName);
+      console.log(countryName);
+      const image = await getCityImage(countryName);
       setCityImage(image);
     };
-    if (showData) {
+    if (showData && countryName) {
       fetchCityImage();
     }
-  }, [showData, cityName]);
-
-
-
+  }, [showData, countryName]);
 
   if (loadingData) {
-    return <Spinner/>
+    return <Spinner />;
   }
 
   return (
-    <div className='mt-5 '>
+    <div className="mt-5">
       {showData === true ? (
-        // SI SHOW DATA ES TRUE ENTONCES SE CODEA LA TARJETA CARD
-        <div className='container'>
-          <div className='card mb-3 mx-auto bg-dark text-light'>
-            <div className='row g-0'>
-              <div className='col-md-4'></div>
-              <div className='col-md-8'>
-                <div className='card-body text-start mt-2'>
-                  <img src={cityImage} className='m-auto' alt='imagenFondo'></img>
+        <div
+          className="container"
+          style={{
+            height: '60vh',
+            backgroundImage: `url(${cityImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="card my-5 mx-auto bg-transparent text-light">
+            <div className="row">
+              <div className="col-md-4"></div>
+              <div className="col-md-8">
+                <div className="card-body text-start mt-2">
+                  <h3 style={{textShadow: "black 2px 2px", marginLeft: '40%'}}>{cityName}</h3>
                 </div>
               </div>
             </div>
@@ -49,7 +57,7 @@ const Card = ({showData, loadingData, weatherData, forecastData, cityName}) => {
         <h2 className="text-light">Sin Datos</h2>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;
