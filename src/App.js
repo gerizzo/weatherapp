@@ -7,7 +7,7 @@ function App() {
     <div className='App'>
       <NavBar/>
       <WeatherPanel/>
-    </div>
+    </div> 
   );
 }
 

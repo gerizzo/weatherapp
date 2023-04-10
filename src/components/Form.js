@@ -21,7 +21,13 @@ const Form = ({newLocation}) => {
                         type='text'
                         className='form-control'
                         placeholder='Ciudad'
-                        onChange={(e) => setCity(e.target.value.toLocaleUpperCase())}/>
+                        onChange={(e) => {
+                            const city = e.target.value;
+                            const formattedCity = city.split(" ")
+                                                      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                                      .join(" ");
+                            setCity(formattedCity);
+                          }}/>
                     <button className='btn btn-primary input-group-text' type='submit'>Buscar</button>
                 </div>
             </form>

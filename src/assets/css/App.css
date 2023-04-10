@@ -1,9 +1,20 @@
 body {
-    background-color: lightskyblue;
+    background-color: rgb(195, 210, 220);
 }
 .App {
     text-align: center;
 }
 .input-group {
-    width: 40%;
+    width: 50%;
+}
+
+.card {
+    max-width: 60%;
+}
+
+.card-date{
+    text-shadow: 1px 1px black;
+}
+.card-temperature{
+    text-shadow: 2px 2px black;
 }
