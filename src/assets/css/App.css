@@ -12,9 +12,10 @@ body {
     max-width: 60%;
 }
 
-.card-date{
-    text-shadow: 1px 1px black;
+.card-text {
+    text-shadow: 1.5px 1px black;
 }
-.card-temperature{
-    text-shadow: 2px 2px black;
+
+.card-desc {
+    text-shadow: 1.5px 1px black;
 }

@@ -22,12 +22,13 @@ const Form = ({newLocation}) => {
                         className='form-control'
                         placeholder='Ciudad'
                         onChange={(e) => {
-                            const city = e.target.value;
-                            const formattedCity = city.split(" ")
-                                                      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                                                      .join(" ");
-                            setCity(formattedCity);
-                          }}/>
+                        const city = e.target.value;
+                        const formattedCity = city
+                            .split(" ")
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                            .join(" ");
+                        setCity(formattedCity);
+                    }}/>
                     <button className='btn btn-primary input-group-text' type='submit'>Buscar</button>
                 </div>
             </form>
