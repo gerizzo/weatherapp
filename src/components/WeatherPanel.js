@@ -19,38 +19,38 @@ const WeatherPanel = () => {
         setShowInfo] = useState(false);
     const [location,
         setLocation] = useState("");
+    const [searched, setSearched] = useState(false);
 
     const getLocation = async(loc) => {
-        setLoading(true);
-        setLocation(loc);
+        try {
+            setLoading(true);
+            setLocation(loc);
 
-        // WEATHER
-        urlWeather = urlWeather + "&q=" + loc;
-        await fetch(urlWeather)
-            .then(response => response.json())
-            .then(weatherData => {
-                setWeather(weatherData);
-            })
-            .catch(error => {
-                setLoading(false);
-                setShowInfo(false);
-            });
+            // WEATHER
+            const responseWeather = await fetch(`${urlWeather}&q=${loc}`);
+            if (!responseWeather.ok) {
+                throw new Error("Response not OK");
+            }
+            const weatherData = await responseWeather.json();
+            setWeather(weatherData);
 
-        // FORESCAST
-        urlForecast = urlForecast + "&q=" + loc;
-        await fetch(urlForecast)
-            .then(response => response.json())
-            .then(forecastData => {
-                setForecast(forecastData);
-                setLoading(false);
-                setShowInfo(true);
-            })
-            .catch(error => {
-                console.error(error)
-                setLoading(false)
-                setShowInfo(false)
-            });
-    }
+            // FORECAST
+            const responseForecast = await fetch(`${urlForecast}&q=${loc}`);
+            if (!responseForecast.ok) {
+                throw new Error("Response not OK");
+            }
+            const forecastData = await responseForecast.json();
+            setForecast(forecastData);
+
+            setLoading(false);
+            setShowInfo(true);
+            setSearched(true);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+            setShowInfo(false);
+        }
+    };
 
     return (
         <div>
@@ -61,7 +61,7 @@ const WeatherPanel = () => {
                 weatherData={weather}
                 forecastData={forecast}
                 cityName={location}
-                />
+                searched={searched}/>
         </div>
     )
 }
