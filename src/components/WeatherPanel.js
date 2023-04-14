@@ -19,7 +19,8 @@ const WeatherPanel = () => {
         setShowInfo] = useState(false);
     const [location,
         setLocation] = useState("");
-    const [searched, setSearched] = useState(false);
+    const [searched,
+        setSearched] = useState(false);
 
     const getLocation = async(loc) => {
         try {
@@ -28,27 +29,32 @@ const WeatherPanel = () => {
 
             // WEATHER
             const responseWeather = await fetch(`${urlWeather}&q=${loc}`);
-            if (!responseWeather.ok) {
-                throw new Error("Response not OK");
-            }
             const weatherData = await responseWeather.json();
-            setWeather(weatherData);
-
-            // FORECAST
-            const responseForecast = await fetch(`${urlForecast}&q=${loc}`);
-            if (!responseForecast.ok) {
+            if (responseWeather.ok) {
+                setWeather(weatherData);
+                // FORECAST
+                const responseForecast = await fetch(`${urlForecast}&q=${loc}`);
+                if (responseForecast.ok) {
+                    const forecastData = await responseForecast.json();
+                    setForecast(forecastData);
+                } else {
+                    throw new Error("Response not OK");
+                }
+                setLoading(false);
+                setShowInfo(true);
+                setSearched(true);
+            } else {
                 throw new Error("Response not OK");
+                
             }
-            const forecastData = await responseForecast.json();
-            setForecast(forecastData);
-
-            setLoading(false);
-            setShowInfo(true);
-            setSearched(true);
         } catch (error) {
             console.error(error);
             setLoading(false);
             setShowInfo(false);
+            if (error.message === "Response not OK") {
+                setSearched(true);
+                setShowInfo(false);
+            }
         }
     };
 

@@ -85,11 +85,11 @@ const Card = ({showData, loadingData, weatherData, forecastData, searched}) => {
 
     return (
         <div className="mt-5">
-            {!showData && searched && (
-                <h3 className="card-text">No se encontró ninguna ciudad.</h3>
-            )}
-            {showData === true
+            {searched && showData === false
                 ? (
+                    <h2>No se encontró una ciudad</h2>
+                )
+                : (showData && (
                     <div className="container">
                         <div
                             className="card my-5 mx-auto bg-transparent text-light"
@@ -171,11 +171,7 @@ const Card = ({showData, loadingData, weatherData, forecastData, searched}) => {
                             </div>
                         </div>
                     </div>
-                )
-                : (
-                    <h2 className="text-light">No se encontró la ciudad.</h2>
-                )}
-        </div>
+                ))}</div>
     );
 };
 
